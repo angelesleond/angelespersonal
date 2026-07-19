@@ -4,5 +4,6 @@ out
 .env
 .env*.local
 data/people.json
+sql/
 *.tsbuildinfo
 .DS_Store
