@@ -24,8 +24,20 @@ export async function POST(req: NextRequest) {
 
   const organizerAccessToken = await getValidAccessToken(cycle.organizerId);
 
+  // La organizadora ya recibe todos los aportes en su propia cuenta, así que su
+  // parte no pasa por un cobro de Mercado Pago (no se puede pagar a una misma):
+  // queda registrada como aportada directamente.
+  await prisma.payment.create({
+    data: {
+      cycleId: cycle.id,
+      payerId: cycle.organizerId,
+      amount: cycle.amountPerPerson,
+      status: "APPROVED",
+    },
+  });
+
   const contributors = await prisma.person.findMany({
-    where: { id: { not: cycle.beneficiaryId } },
+    where: { id: { notIn: [cycle.beneficiaryId, cycle.organizerId] } },
   });
 
   const baseUrl = process.env.APP_URL ?? new URL(req.url).origin;
