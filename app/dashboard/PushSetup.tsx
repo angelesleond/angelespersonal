@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+const STORAGE_KEY = "regalos-amigas-push-tip-v1";
+
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -12,17 +14,26 @@ function urlBase64ToUint8Array(base64String: string) {
 export default function PushSetup({ personId }: { personId: string }) {
   const [status, setStatus] = useState<"idle" | "asking" | "on" | "denied" | "unsupported">("idle");
   const [testSent, setTestSent] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
       setStatus("unsupported");
       return;
     }
+    if (localStorage.getItem(STORAGE_KEY)) {
+      setDismissed(true);
+    }
     navigator.serviceWorker.ready.then(async (reg) => {
       const existing = await reg.pushManager.getSubscription();
       if (existing) setStatus("on");
     });
   }, []);
+
+  function dismiss() {
+    localStorage.setItem(STORAGE_KEY, "1");
+    setDismissed(true);
+  }
 
   async function enable() {
     setStatus("asking");
@@ -52,10 +63,11 @@ export default function PushSetup({ personId }: { personId: string }) {
   async function sendTest() {
     setTestSent(true);
     await fetch("/api/push/test", { method: "POST" });
-    setTimeout(() => setTestSent(false), 4000);
+    setTimeout(dismiss, 2500);
   }
 
   if (status === "unsupported") return null;
+  if (dismissed) return null;
 
   if (status === "on") {
     return (
@@ -63,6 +75,12 @@ export default function PushSetup({ personId }: { personId: string }) {
         <p>Las notificaciones están activadas.</p>
         <button onClick={sendTest} disabled={testSent}>
           {testSent ? "Enviada, revisá tu celular" : "Enviar notificación de prueba"}
+        </button>
+        <button
+          onClick={dismiss}
+          style={{ background: "transparent", color: "#8a7f73", marginTop: "0.5rem" }}
+        >
+          No mostrar de nuevo
         </button>
       </div>
     );
