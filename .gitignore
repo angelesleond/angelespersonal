@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+.env
+.env*.local
+data/people.json
+*.tsbuildinfo
+.DS_Store

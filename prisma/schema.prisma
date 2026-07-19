@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Person {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  birthday  DateTime // solo importan día y mes
+  wishlist  String   @default("")
+  createdAt DateTime @default(now())
+
+  mpAccount        MpAccount?
+  pushSubs         PushSubscription[]
+  paymentsToMake   Payment[]          @relation("PayerPayments")
+  cyclesOrganized  GiftCycle[]        @relation("Organizer")
+  cyclesReceived   GiftCycle[]        @relation("Beneficiary")
+}
+
+model MpAccount {
+  id           String    @id @default(cuid())
+  person       Person    @relation(fields: [personId], references: [id])
+  personId     String    @unique
+  mpUserId     String
+  accessToken  String
+  refreshToken String
+  publicKey    String?
+  tokenType    String
+  scope        String?
+  expiresAt    DateTime
+  connectedAt  DateTime  @default(now())
+}
+
+enum CycleStatus {
+  COLLECTING
+  COMPLETED
+}
+
+model GiftCycle {
+  id              String      @id @default(cuid())
+  beneficiary     Person      @relation("Beneficiary", fields: [beneficiaryId], references: [id])
+  beneficiaryId   String
+  organizer       Person      @relation("Organizer", fields: [organizerId], references: [id])
+  organizerId     String
+  occursOn        DateTime
+  amountPerPerson Int
+  status          CycleStatus @default(COLLECTING)
+  startedAt       DateTime    @default(now())
+  completedAt     DateTime?
+
+  payments Payment[]
+
+  @@unique([beneficiaryId, occursOn])
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  cycle         GiftCycle     @relation(fields: [cycleId], references: [id])
+  cycleId       String
+  payer         Person        @relation("PayerPayments", fields: [payerId], references: [id])
+  payerId       String
+  amount        Int
+  status        PaymentStatus @default(PENDING)
+  mpPreferenceId String?
+  mpPaymentId   String?
+  initPoint     String?
+  lastReminderAt DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([cycleId, payerId])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  String
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id                 Int    @id @default(1)
+  amountPerPerson    Int    @default(7500)
+  reminderIntervalDays Int  @default(3)
+}
