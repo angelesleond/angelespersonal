@@ -6,6 +6,8 @@ import OrganizerActions from "./OrganizerActions";
 import PushSetup from "./PushSetup";
 import LogoutButton from "./LogoutButton";
 import ProfileEditor from "./ProfileEditor";
+import Onboarding from "./Onboarding";
+import Celebration from "./Celebration";
 
 export const dynamic = "force-dynamic";
 
@@ -65,6 +67,11 @@ export default async function DashboardPage() {
         <LogoutButton />
       </div>
       <p className="subtitle">Hola, {me.name}</p>
+
+      <Onboarding />
+      {cycle.status === "COMPLETED" && (
+        <Celebration cycleId={cycle.id} beneficiaryName={cycle.beneficiary.name} />
+      )}
 
       <PushSetup personId={me.id} />
 
