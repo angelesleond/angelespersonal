@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "regalos-amigas-onboarding-v1";
+const STORAGE_KEY = "regalos-amigas-onboarding-v2";
 
 export default function Onboarding() {
   const [open, setOpen] = useState(false);
@@ -83,6 +83,13 @@ export default function Onboarding() {
           En la tarjeta "Cumpleaños actual" vas a encontrar la lista de deseos de la persona que
           cumple, para que la organizadora (o cualquiera) sepa qué comprarle. No te olvides de
           completar la tuya en "Editar mi perfil" cuando te toque a ti.
+        </p>
+
+        <h2 style={{ fontSize: "1rem" }}>💬 Recordatorios por WhatsApp</h2>
+        <p>
+          Cuando te toque organizar, en "Estado del grupo" vas a ver un botón junto a cada persona
+          que todavía no aportó — con un toque le abre WhatsApp con un mensaje ya escrito para que
+          solo tengas que mandarlo.
         </p>
 
         <button onClick={close}>Entendido, ¡vamos!</button>
