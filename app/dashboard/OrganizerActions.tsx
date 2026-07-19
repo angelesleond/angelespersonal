@@ -41,22 +41,22 @@ export default function OrganizerActions({
 
   return (
     <div className="card">
-      <h2>Sos la organizadora</h2>
+      <h2>Eres la organizadora</h2>
       {!organizerConnected && (
         <>
-          <p>Primero conectá tu cuenta de Mercado Pago para recibir los aportes directo.</p>
+          <p>Primero conecta tu cuenta de Mercado Pago para recibir los aportes directo.</p>
           <button onClick={connect}>Conectar con Mercado Pago</button>
         </>
       )}
       {organizerConnected && !started && (
         <>
-          <p>Cuando estés lista, iniciá el cobro para generar los links de pago del resto del grupo.</p>
+          <p>Cuando estés lista, inicia el cobro para generar los links de pago del resto del grupo.</p>
           <button onClick={startCharge} disabled={loading}>
             {loading ? "Generando cobros..." : "Iniciar cobro"}
           </button>
         </>
       )}
-      {organizerConnected && started && <p>El cobro ya está en marcha. Mirá el estado abajo.</p>}
+      {organizerConnected && started && <p>El cobro ya está en marcha. Mira el estado abajo.</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );

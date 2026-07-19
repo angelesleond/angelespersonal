@@ -53,7 +53,7 @@ export default function PushSetup({ personId }: { personId: string }) {
 
   return (
     <div className="card">
-      <p>Activá las notificaciones para enterarte cuando te toque aportar.</p>
+      <p>Activa las notificaciones para enterarte cuando te toque aportar.</p>
       <button onClick={enable} disabled={status === "asking"}>
         {status === "denied" ? "Notificaciones bloqueadas" : "Activar notificaciones"}
       </button>

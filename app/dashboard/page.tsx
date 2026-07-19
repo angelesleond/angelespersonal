@@ -21,7 +21,7 @@ export default async function DashboardPage() {
     return (
       <main>
         <h1>🎁 Regalos Rotativos</h1>
-        <p>Hola {me.name}. Cargá al menos 2 personas con su cumpleaños para empezar.</p>
+        <p>Hola {me.name}. Carga al menos 2 personas con su cumpleaños para empezar.</p>
       </main>
     );
   }
@@ -57,11 +57,11 @@ export default async function DashboardPage() {
         <h2>Cumpleaños actual</h2>
         <p>
           🎂 <strong>{cycle.beneficiary.name}</strong>
-          {iAmBeneficiary && " (¡sos vos! no aportás a tu propio regalo)"}
+          {iAmBeneficiary && " (¡eres tú! no aportas a tu propio regalo)"}
         </p>
         <p>
           Organiza: <strong>{cycle.organizer.name}</strong>
-          {iAmOrganizer && " (¡sos vos!)"}
+          {iAmOrganizer && " (¡eres tú!)"}
         </p>
         <p>Monto por persona: ${cycle.amountPerPerson.toLocaleString("es-CL")} CLP</p>
       </div>

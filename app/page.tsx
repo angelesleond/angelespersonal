@@ -17,7 +17,7 @@ export default async function HomePage() {
   return (
     <main>
       <h1>🎁 Regalos Rotativos</h1>
-      <p>Elegí tu nombre para entrar. Sin contraseña — grupo cerrado entre amigas.</p>
+      <p>Elige tu nombre para entrar. Sin contraseña — grupo cerrado entre amigas.</p>
       <LoginForm people={people.map((p) => ({ id: p.id, name: p.name }))} />
     </main>
   );
