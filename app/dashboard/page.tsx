@@ -76,17 +76,26 @@ export default async function DashboardPage() {
       <PushSetup personId={me.id} />
 
       <div className="card">
-        <h2>Cumpleaños actual</h2>
-        <p>
-          <strong>{cycle.beneficiary.name}</strong>
-          {iAmBeneficiary && " (¡eres tú! no aportas a tu propio regalo)"}
-          {" · "}
-          {daysLeft <= 0 ? "¡es hoy!" : daysLeft === 1 ? "falta 1 día" : `faltan ${daysLeft} días`}
-        </p>
-        <p>
-          Organiza: <strong>{cycle.organizer.name}</strong>
-          {iAmOrganizer && " (¡eres tú!)"}
-        </p>
+        <div className="birthday-highlight">
+          <p className="eyebrow">Cumpleaños actual</p>
+          <p className="name">
+            {cycle.beneficiary.name}
+            {iAmBeneficiary && " (¡eres tú!)"}
+          </p>
+          <p className="countdown">
+            {daysLeft <= 0 ? "¡Es hoy!" : daysLeft === 1 ? "Falta 1 día" : `Faltan ${daysLeft} días`}
+          </p>
+          {iAmBeneficiary && (
+            <p style={{ marginTop: "0.4rem", marginBottom: 0 }}>No aportas a tu propio regalo.</p>
+          )}
+        </div>
+
+        <div className="organizer-highlight">
+          <span className="eyebrow">Organiza</span>
+          <span className="name">{cycle.organizer.name}</span>
+          {iAmOrganizer && <span>(¡eres tú!)</span>}
+        </div>
+
         <p>Monto por persona: ${cycle.amountPerPerson.toLocaleString("es-CL")} CLP</p>
         {cycle.beneficiary.wishlist && (
           <>

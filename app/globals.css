@@ -128,6 +128,60 @@ button:disabled {
   flex-shrink: 0;
 }
 
+.birthday-highlight {
+  background: linear-gradient(135deg, var(--gold-soft), #fbe9d8);
+  border-radius: 18px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.birthday-highlight .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--terracotta-dark);
+  margin: 0 0 0.25rem;
+}
+
+.birthday-highlight .name {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+  color: var(--ink);
+}
+
+.birthday-highlight .countdown {
+  margin: 0;
+  color: var(--terracotta-dark);
+  font-weight: 600;
+}
+
+.organizer-highlight {
+  background: var(--sage-soft);
+  border-radius: 18px;
+  padding: 0.85rem 1.2rem;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.organizer-highlight .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--sage);
+}
+
+.organizer-highlight .name {
+  font-weight: 700;
+  color: var(--ink);
+}
+
 .badge-ok {
   color: var(--sage);
   font-weight: 600;
