@@ -51,7 +51,7 @@ export default function Onboarding() {
 
         <h2 style={{ fontSize: "1rem" }}>📲 Instálala en tu celular</h2>
         <p>
-          Para recibir notificaciones necesitás agregarla a tu pantalla de inicio, no alcanza con
+          Para recibir notificaciones necesitas agregarla a tu pantalla de inicio, no alcanza con
           tenerla abierta en el navegador.
         </p>
         <p style={{ marginBottom: "0.3rem" }}>
@@ -59,14 +59,14 @@ export default function Onboarding() {
           inicio".
         </p>
         <p>
-          <strong>iPhone (Safari):</strong> tocá el botón de compartir (el cuadrado con la
+          <strong>iPhone (Safari):</strong> toca el botón de compartir (el cuadrado con la
           flecha) → "Agregar a pantalla de inicio". En iPhone es obligatorio hacer esto para que
           lleguen los avisos.
         </p>
 
         <h2 style={{ fontSize: "1rem" }}>🔔 Activa las notificaciones</h2>
         <p>
-          Una vez instalada, tocá el botón "Activar notificaciones" que aparece arriba del todo.
+          Una vez instalada, toca el botón "Activar notificaciones" que aparece arriba del todo.
           Así te vamos a avisar cuando te toque aportar, con recordatorios si se te pasa, y
           cuando se junte todo el regalo.
         </p>
@@ -82,7 +82,7 @@ export default function Onboarding() {
         <p>
           En la tarjeta "Cumpleaños actual" vas a encontrar la lista de deseos de la persona que
           cumple, para que la organizadora (o cualquiera) sepa qué comprarle. No te olvides de
-          completar la tuya en "Editar mi perfil" cuando te toque a vos.
+          completar la tuya en "Editar mi perfil" cuando te toque a ti.
         </p>
 
         <button onClick={close}>Entendido, ¡vamos!</button>
