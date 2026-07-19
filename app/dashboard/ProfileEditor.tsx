@@ -31,7 +31,7 @@ export default function ProfileEditor({
   if (!open) {
     return (
       <div className="card">
-        <button style={{ background: "transparent", color: "#7c3aed" }} onClick={() => setOpen(true)}>
+        <button style={{ background: "transparent", color: "#c17a62" }} onClick={() => setOpen(true)}>
           Editar mi perfil (cumpleaños / lista de deseos)
         </button>
       </div>

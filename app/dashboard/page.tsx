@@ -9,6 +9,13 @@ import ProfileEditor from "./ProfileEditor";
 
 export const dynamic = "force-dynamic";
 
+function daysUntil(date: Date): number {
+  const today = new Date();
+  const todayMidnight = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+  const diffMs = date.getTime() - todayMidnight.getTime();
+  return Math.round(diffMs / (1000 * 60 * 60 * 24));
+}
+
 export default async function DashboardPage() {
   const personId = await getCurrentPersonId();
   if (!personId) redirect("/");
@@ -20,15 +27,22 @@ export default async function DashboardPage() {
   if (!cycle) {
     return (
       <main>
-        <h1>🎁 Regalos Rotativos</h1>
-        <p>Hola {me.name}. Carga al menos 2 personas con su cumpleaños para empezar.</p>
+        <h1>Regalos Amigas</h1>
+        <p className="subtitle">Hola {me.name}. Carga al menos 2 personas con su cumpleaños para empezar.</p>
       </main>
     );
   }
 
   const allPeople = await prisma.person.findMany({ orderBy: { name: "asc" } });
   const paymentsByPayer = new Map(cycle.payments.map((p) => [p.payerId, p]));
-  const contributors = allPeople.filter((p) => p.id !== cycle.beneficiaryId);
+  const contributors = allPeople
+    .filter((p) => p.id !== cycle.beneficiaryId)
+    .sort((a, b) => {
+      const aPaid = paymentsByPayer.get(a.id)?.status === "APPROVED" ? 1 : 0;
+      const bPaid = paymentsByPayer.get(b.id)?.status === "APPROVED" ? 1 : 0;
+      if (aPaid !== bPaid) return aPaid - bPaid;
+      return a.name.localeCompare(b.name);
+    });
 
   const started = cycle.payments.length > 0;
   const approvedCount = cycle.payments.filter((p) => p.status === "APPROVED").length;
@@ -40,30 +54,39 @@ export default async function DashboardPage() {
   const myPayment = paymentsByPayer.get(me.id);
   const iAmOrganizer = me.id === cycle.organizerId;
   const iAmBeneficiary = me.id === cycle.beneficiaryId;
+  const daysLeft = daysUntil(cycle.occursOn);
 
   const organizerMpAccount = await prisma.mpAccount.findUnique({ where: { personId: cycle.organizerId } });
 
   return (
     <main>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h1>🎁 Regalos</h1>
+        <h1>Regalos Amigas</h1>
         <LogoutButton />
       </div>
-      <p>Hola, {me.name} 👋</p>
+      <p className="subtitle">Hola, {me.name}</p>
 
       <PushSetup personId={me.id} />
 
       <div className="card">
         <h2>Cumpleaños actual</h2>
         <p>
-          🎂 <strong>{cycle.beneficiary.name}</strong>
+          <strong>{cycle.beneficiary.name}</strong>
           {iAmBeneficiary && " (¡eres tú! no aportas a tu propio regalo)"}
+          {" · "}
+          {daysLeft <= 0 ? "¡es hoy!" : daysLeft === 1 ? "falta 1 día" : `faltan ${daysLeft} días`}
         </p>
         <p>
           Organiza: <strong>{cycle.organizer.name}</strong>
           {iAmOrganizer && " (¡eres tú!)"}
         </p>
         <p>Monto por persona: ${cycle.amountPerPerson.toLocaleString("es-CL")} CLP</p>
+        {cycle.beneficiary.wishlist && (
+          <>
+            <p style={{ marginBottom: "0.35rem", fontWeight: 600 }}>Lista de deseos</p>
+            <div className="wishlist-box">{cycle.beneficiary.wishlist}</div>
+          </>
+        )}
       </div>
 
       <div className="card">
@@ -100,8 +123,11 @@ export default async function DashboardPage() {
           const paid = pay?.status === "APPROVED";
           return (
             <div className="person-row" key={p.id}>
-              <span>{p.name}</span>
-              <span className={paid ? "badge-ok" : "badge-pending"}>{paid ? "✅ Pagó" : "⏳ Pendiente"}</span>
+              <span className="person-name">
+                <span className="avatar">{p.name.charAt(0).toUpperCase()}</span>
+                {p.name}
+              </span>
+              <span className={paid ? "badge-ok" : "badge-pending"}>{paid ? "Pagó" : "Pendiente"}</span>
             </div>
           );
         })}

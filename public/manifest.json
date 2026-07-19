@@ -1,12 +1,12 @@
 {
-  "name": "Regalos Rotativos",
-  "short_name": "Regalos",
-  "description": "Fondo de regalos rotativo entre amigas",
+  "name": "Regalos Amigas",
+  "short_name": "Regalos Amigas",
+  "description": "El fondo de regalos entre amigas",
   "start_url": "/dashboard",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#faf5ff",
-  "theme_color": "#7c3aed",
+  "background_color": "#faf6f1",
+  "theme_color": "#c17a62",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
