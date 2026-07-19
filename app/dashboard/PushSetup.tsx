@@ -11,6 +11,7 @@ function urlBase64ToUint8Array(base64String: string) {
 
 export default function PushSetup({ personId }: { personId: string }) {
   const [status, setStatus] = useState<"idle" | "asking" | "on" | "denied" | "unsupported">("idle");
+  const [testSent, setTestSent] = useState(false);
 
   useEffect(() => {
     if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
@@ -48,8 +49,24 @@ export default function PushSetup({ personId }: { personId: string }) {
     setStatus("on");
   }
 
+  async function sendTest() {
+    setTestSent(true);
+    await fetch("/api/push/test", { method: "POST" });
+    setTimeout(() => setTestSent(false), 4000);
+  }
+
   if (status === "unsupported") return null;
-  if (status === "on") return null;
+
+  if (status === "on") {
+    return (
+      <div className="card">
+        <p>Las notificaciones están activadas.</p>
+        <button onClick={sendTest} disabled={testSent}>
+          {testSent ? "Enviada, revisá tu celular" : "Enviar notificación de prueba"}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="card">
