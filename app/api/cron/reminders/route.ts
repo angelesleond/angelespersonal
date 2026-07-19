@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   if (!cycle) return NextResponse.json({ ok: true, reminded: 0 });
 
   const settings = await prisma.settings.findUnique({ where: { id: 1 } });
-  const intervalDays = settings?.reminderIntervalDays ?? 3;
+  const intervalDays = settings?.reminderIntervalDays ?? 1;
   const cutoff = new Date(Date.now() - intervalDays * 24 * 60 * 60 * 1000);
 
   const pending = cycle.payments.filter(
@@ -23,8 +23,8 @@ export async function GET(req: NextRequest) {
   let reminded = 0;
   for (const payment of pending) {
     await sendPushToPerson(payment.payerId, {
-      title: "🔔 Recordatorio",
-      body: `Todavía falta tu aporte de $${cycle.amountPerPerson.toLocaleString("es-CL")} para el regalo de ${cycle.beneficiary.name}.`,
+      title: "Ya po morosa",
+      body: "Si no pagas las notificaciones serán cada hora, no seas lata y paga ❤️",
       url: "/dashboard",
     });
     await prisma.payment.update({ where: { id: payment.id }, data: { lastReminderAt: new Date() } });

@@ -71,14 +71,16 @@ export async function POST(req: NextRequest) {
   if (status === "APPROVED") {
     const updatedCycle = await refreshCycleCompletion(cycleId);
     if (updatedCycle?.status === "COMPLETED") {
-      const cycle = await prisma.giftCycle.findUnique({ where: { id: cycleId } });
-      if (cycle) {
-        await sendPushToPerson(cycle.organizerId, {
-          title: "🎉 ¡Listo!",
-          body: "Ya está todo el dinero reunido para el regalo.",
-          url: "/dashboard",
-        });
-      }
+      const everyone = await prisma.person.findMany();
+      await Promise.all(
+        everyone.map((person) =>
+          sendPushToPerson(person.id, {
+            title: "Listo!!",
+            body: "Ya todas pagamos, miren que rápidas fuimos yei",
+            url: "/dashboard",
+          })
+        )
+      );
     }
   }
 

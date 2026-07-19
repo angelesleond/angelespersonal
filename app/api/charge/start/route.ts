@@ -65,8 +65,8 @@ export async function POST(req: NextRequest) {
       });
 
       await sendPushToPerson(payer.id, {
-        title: "🎁 Te toca aportar",
-        body: `¡Te toca aportar $${cycle.amountPerPerson.toLocaleString("es-CL")} para el regalo de ${cycle.beneficiary.name}!`,
+        title: "Partimos pagando!!",
+        body: `Métete y paga a ${cycle.organizer.name} el regalo de cumple de ${cycle.beneficiary.name}.`,
         url: "/dashboard",
       });
 

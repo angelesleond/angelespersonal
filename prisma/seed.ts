@@ -26,7 +26,7 @@ async function main() {
   await prisma.settings.upsert({
     where: { id: 1 },
     update: {},
-    create: { id: 1, amountPerPerson: 7500, reminderIntervalDays: 3 },
+    create: { id: 1, amountPerPerson: 7500, reminderIntervalDays: 1 },
   });
 
   console.log(`Listo: ${people.length} personas cargadas.`);

@@ -97,5 +97,5 @@ model PushSubscription {
 model Settings {
   id                 Int    @id @default(1)
   amountPerPerson    Int    @default(7500)
-  reminderIntervalDays Int  @default(3)
+  reminderIntervalDays Int  @default(1)
 }
