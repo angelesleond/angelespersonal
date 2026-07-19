@@ -50,7 +50,7 @@ export default function OrganizerActions({
       )}
       {organizerConnected && !started && (
         <>
-          <p>Cuando estés lista, iniciá el cobro para generar los links de pago de las 14.</p>
+          <p>Cuando estés lista, iniciá el cobro para generar los links de pago del resto del grupo.</p>
           <button onClick={startCharge} disabled={loading}>
             {loading ? "Generando cobros..." : "Iniciar cobro"}
           </button>

@@ -6,7 +6,7 @@ PWA para gestionar un fondo de regalos rotativo entre un grupo cerrado de amigas
 
 ## Cómo funciona
 
-- 15 personas, perfil con nombre + cumpleaños + lista de deseos.
+- 16 personas, perfil con nombre + cumpleaños + lista de deseos.
 - Entran eligiendo su nombre de una lista (sin contraseña — grupo cerrado).
 - La app calcula sola quién cumple años próximamente (beneficiaria) y quién organiza (la última que cumplió).
 - La organizadora conecta su cuenta de Mercado Pago vía OAuth y genera 14 links de pago (Checkout Pro) que depositan directo en su cuenta.
@@ -45,17 +45,17 @@ npm run generate-vapid
 
 Esto imprime un par de claves. Pegalas en `.env` como `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` y `NEXT_PUBLIC_VAPID_PUBLIC_KEY` (esta última es la pública, repetida con prefijo `NEXT_PUBLIC_` para que el navegador la use).
 
-## 4. Cargar a las 15 amigas
+## 4. Cargar a las 16 amigas
 
 ```bash
 cp data/people.example.json data/people.json
 ```
 
-Editá `data/people.json` con los 15 nombres y fechas de cumpleaños (`AAAA-MM-DD`). Después:
+Editá `data/people.json` con los 16 nombres y fechas de cumpleaños (`AAAA-MM-DD`). Después:
 
 ```bash
 npx prisma db push   # crea las tablas en Neon
-npm run db:seed      # carga a las 15 personas
+npm run db:seed      # carga a las 16 personas
 ```
 
 Cada una puede después entrar y completar su propia lista de deseos, y corregir su cumpleaños si hace falta, desde "Editar mi perfil" en el dashboard.
@@ -98,7 +98,7 @@ Recién cuando esto funcione de punta a punta, cambiá las credenciales de `.env
 - [ ] Las cookies de sesión son `httpOnly` y `secure` en producción (ya configurado).
 - [ ] `MP_ACCESS_TOKEN`, `MP_CLIENT_SECRET`, `SESSION_SECRET`, `CRON_SECRET` están seteados como variables de entorno en Vercel (nunca en el código ni en el repo).
 - [ ] Probaste un ciclo completo en sandbox (paso 6) antes de pasar a producción.
-- [ ] Avisaste a las 14 que usen **transferencia o saldo en cuenta** al pagar (con tarjeta de crédito Mercado Pago cobra comisión y no llega el monto completo).
+- [ ] Avisaste al resto del grupo que usen **transferencia o saldo en cuenta** al pagar (con tarjeta de crédito Mercado Pago cobra comisión y no llega el monto completo).
 - [ ] El manifest y el service worker permiten instalar la PWA en iOS y Android (probado con "Agregar a pantalla de inicio").
 
 ## 8. Deploy a Vercel
