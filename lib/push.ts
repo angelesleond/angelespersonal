@@ -7,7 +7,10 @@ function ensureConfigured() {
   if (configured) return;
   const publicKey = process.env.VAPID_PUBLIC_KEY;
   const privateKey = process.env.VAPID_PRIVATE_KEY;
-  const subject = process.env.VAPID_SUBJECT ?? "mailto:admin@example.com";
+  let subject = process.env.VAPID_SUBJECT ?? "mailto:admin@example.com";
+  if (!/^mailto:|^https?:/i.test(subject)) {
+    subject = `mailto:${subject}`;
+  }
   if (!publicKey || !privateKey) {
     throw new Error("Faltan VAPID_PUBLIC_KEY / VAPID_PRIVATE_KEY en las variables de entorno");
   }
