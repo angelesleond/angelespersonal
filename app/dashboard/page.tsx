@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/db";
 import { getCurrentPersonId } from "@/lib/auth";
 import { getOrCreateCurrentCycle } from "@/lib/cycle";
@@ -59,6 +60,10 @@ export default async function DashboardPage() {
   const daysLeft = daysUntil(cycle.occursOn);
 
   const organizerMpAccount = await prisma.mpAccount.findUnique({ where: { personId: cycle.organizerId } });
+
+  const host = (await headers()).get("host");
+  const origin = process.env.APP_URL ?? `https://${host}`;
+  const whatsappMessage = `Métete al link y pagame el regalo porfa, te quiero mucho 💕\n${origin}/dashboard`;
 
   return (
     <main>
@@ -143,7 +148,19 @@ export default async function DashboardPage() {
                 <span className="avatar">{p.name.charAt(0).toUpperCase()}</span>
                 {p.name}
               </span>
-              <span className={paid ? "badge-ok" : "badge-pending"}>{paid ? "Pagó" : "Pendiente"}</span>
+              <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                {iAmOrganizer && !paid && p.phone && (
+                  <a
+                    className="wp-btn"
+                    href={`https://wa.me/${p.phone}?text=${encodeURIComponent(whatsappMessage)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Catetear por wp
+                  </a>
+                )}
+                <span className={paid ? "badge-ok" : "badge-pending"}>{paid ? "Pagó" : "Pendiente"}</span>
+              </span>
             </div>
           );
         })}

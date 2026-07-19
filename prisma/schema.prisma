@@ -13,6 +13,7 @@ model Person {
   name      String   @unique
   birthday  DateTime // solo importan día y mes
   wishlist  String   @default("")
+  phone     String? // formato wa.me: código de país + número, solo dígitos
   createdAt DateTime @default(now())
 
   mpAccount        MpAccount?
